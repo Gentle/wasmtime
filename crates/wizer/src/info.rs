@@ -164,7 +164,7 @@ impl<'a> ModuleContext<'a> {
     }
 
     /// Iterate over the defined globals in this module.
-    pub(crate) fn defined_globals(
+    pub fn defined_globals(
         &self,
     ) -> impl Iterator<Item = (u32, wasmparser::GlobalType, Option<&str>)> + '_ {
         let mut defined_global_exports = self

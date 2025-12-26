@@ -1,5 +1,6 @@
 use crate::{InstanceState, SnapshotVal, Wizer};
 use anyhow::Context;
+use wasmparser::ValType;
 use wasmtime::{Extern, Instance, Module, Result, Store, Val};
 
 impl Wizer {
@@ -93,7 +94,7 @@ pub struct WasmtimeWizer<'a, T: 'static> {
 }
 
 impl<T: Send> InstanceState for WasmtimeWizer<'_, T> {
-    async fn global_get(&mut self, name: &str) -> SnapshotVal {
+    async fn global_get(&mut self, name: &str, _: ValType) -> SnapshotVal {
         let global = self.instance.get_global(&mut *self.store, name).unwrap();
         match global.get(&mut *self.store) {
             Val::I32(x) => SnapshotVal::I32(x),
